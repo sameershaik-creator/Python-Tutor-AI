@@ -28,7 +28,7 @@ graph TD
   - **Telglish**: Telugu conversational language written using the English/Latin alphabet, while Python keywords and technical terminology remain in English (e.g., *"Ee code lo `if` condition check chestundhi..."*).
   - Automatically switches between English and Telglish based on user preference.
 - **▶️ Code Execution & Explanation**: Run Python snippets live in the editor and receive natural step-by-step explanations of standard outputs or error tracebacks.
-- **⚡ Fast Inference**: Fine-tuned 4-bit quantized Qwen3-1.7B model using Unsloth for rapid response generation on consumer GPUs.
+- **⚡ Efficient Inference**: Uses 4-bit quantization and LoRA to reduce memory requirements and make inference practical on consumer GPUs.
 
 ---
 
@@ -37,7 +37,7 @@ graph TD
 ```
 Python-Tutor-AI/
 ├── app.py                      # Main Gradio Web Application UI & Chat interface
-├── python_executor.py          # Python code execution runner for educational testing
+├── python_executor.py          # Python code execution runner (10s timeout)
 │
 ├── generate_dataset.py         # Automated dataset generation pipeline
 ├── prepare_training_data.py  # Dataset format conversion & tokenization prep
@@ -58,7 +58,7 @@ Python-Tutor-AI/
 
 ## 🔒 Security Notice on Code Execution
 
-`python_executor.py` executes user-provided Python code using isolated `subprocess.run()` calls with execution timeouts and output limits. 
+`python_executor.py` executes user-provided Python code using isolated `subprocess.run()` calls with strict execution timeouts (10s limit) and output truncation (5000 characters). 
 
 > **Important**: This executor is suitable for local educational testing and demonstration. For a 24/7 public production deployment, sandboxed container isolation (such as Docker or gVisor) should be implemented.
 
