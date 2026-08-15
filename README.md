@@ -1,36 +1,66 @@
 # 🐍 Python Tutor AI
 
-An interactive, bilingual AI programming tutor designed to explain Python concepts, assist with code debugging, and run code with natural explanations in **Telglish** (Telugu + English) and **English**.
+An interactive, end-to-end AI programming tutor designed to explain Python concepts, assist with code debugging, and execute Python code with natural explanations in **Telglish** and **English**.
 
-Powered by a fine-tuned LLM using **Unsloth** and integrated with an interactive **Gradio** web interface and custom execution environment.
-
----
-
-## ✨ Features
-
-- **🎓 Interactive AI Tutor**: Patient, beginner-friendly programming assistant tailored for learning Python.
-- **🗣️ Telglish & English Support**: Naturally responds in conversational Telglish (Telugu script in Latin letters) or English based on user input.
-- **▶️ Code Execution & Step-by-Step Explanation**: Write code in the editor, run it, and receive an instant breakdown of standard outputs or error tracebacks.
-- **⚡ Efficient Inference**: Fine-tuned using LoRA 4-bit quantization with Unsloth for fast execution and low memory consumption.
+Powered by a fine-tuned **Qwen3-1.7B** model via **Unsloth (QLoRA)**, integrated with an interactive **Gradio** web interface and custom execution runner.
 
 ---
 
-## 🛠️ Project Architecture
+## 🔄 End-to-End ML Pipeline Architecture
+
+```mermaid
+graph TD
+    A[Raw Python Learning Material & PDFs] --> B[generate_dataset.py - QA Generation]
+    B --> C[quality_filter.py - Rule & Heuristic Filtering]
+    C --> D[factual_review.py - Verification & Review]
+    D --> E[fine_tuning.py - QLoRA Fine-tuning with Unsloth]
+    E --> F[save_model.py - LoRA Adapter Checkpoints]
+    F --> G[app.py - Gradio Web Application]
+    G --> H[python_executor.py - Code Execution Runner]
+    H --> I[Telglish & English Step-by-Step AI Explanation]
+```
+
+---
+
+## ✨ Key Features
+
+- **🗣️ Telglish & English Support**: 
+  - **Telglish**: Telugu conversational language written using the English/Latin alphabet, while Python keywords and technical terminology remain in English (e.g., *"Ee code lo `if` condition check chestundhi..."*).
+  - Automatically switches between English and Telglish based on user preference.
+- **▶️ Code Execution & Explanation**: Run Python snippets live in the editor and receive natural step-by-step explanations of standard outputs or error tracebacks.
+- **⚡ Fast Inference**: Fine-tuned 4-bit quantized Qwen3-1.7B model using Unsloth for rapid response generation on consumer GPUs.
+
+---
+
+## 📁 Repository Structure
 
 ```
 Python-Tutor-AI/
-├── app.py                     # Main Gradio Web Application UI & Chat logic
-├── python_executor.py         # Subprocess-isolated Python code execution runner
-├── python-tutor-lora-final/   # Fine-tuned LoRA adapter weights & tokenizer
-├── fine_tuning.py             # Unsloth fine-tuning pipeline script
-├── generate_dataset.py        # Dataset generation & processing script
-├── factual_review.py          # Quality and factual review filtering
-├── quality_filter.py           # Dataset curation script
-├── requirements.txt           # Environment dependencies
-└── README.md                  # Project documentation
+├── app.py                      # Main Gradio Web Application UI & Chat interface
+├── python_executor.py          # Python code execution runner for educational testing
+│
+├── generate_dataset.py         # Automated dataset generation pipeline
+├── prepare_training_data.py  # Dataset format conversion & tokenization prep
+├── quality_filter.py           # Deduplication & quality heuristic filter
+├── factual_review.py           # Factual accuracy verification script
+├── fine_tuning.py              # Unsloth QLoRA fine-tuning pipeline
+├── save_model.py               # Adapter merging and model saving script
+├── test_model.py               # Fine-tuned model evaluation script
+├── test_base_model.py          # Base model comparison test script
+│
+├── python-tutor-lora-final/    # Fine-tuned LoRA adapter weights & tokenizer
+├── requirements.txt            # Python dependencies
+├── LICENSE                     # MIT License
+└── README.md                   # Project documentation
 ```
 
-> **Note on Code Execution**: Python code execution is designed for local educational testing and prototyping. For public production deployment, sandboxed container isolation (e.g., Docker/gVisor) is recommended.
+---
+
+## 🔒 Security Notice on Code Execution
+
+`python_executor.py` executes user-provided Python code using isolated `subprocess.run()` calls with execution timeouts and output limits. 
+
+> **Important**: This executor is suitable for local educational testing and demonstration. For a 24/7 public production deployment, sandboxed container isolation (such as Docker or gVisor) should be implemented.
 
 ---
 
@@ -45,8 +75,9 @@ Python-Tutor-AI/
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Python-Tutor-AI.git
+git clone https://github.com/sameershaik-creator/Python-Tutor-AI.git
 cd Python-Tutor-AI
+
 python -m venv .venv
 # On Windows:
 .\.venv\Scripts\activate
@@ -56,9 +87,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Running the Application
+### 3. Launch the Web Application
 
-Launch the Gradio app locally:
+Start the Gradio interface:
 
 ```bash
 python app.py
@@ -68,17 +99,6 @@ Open the local URL displayed in the terminal (default: `http://localhost:7860`).
 
 ---
 
-## 🔬 Model & Fine-tuning
-
-The model was fine-tuned using [Unsloth](https://github.com/unslothai/unsloth) on custom curated Telglish and English Python programming QA pairs.
-
-Scripts included:
-- `generate_dataset.py`: Parses and prepares training text & dataset pairs.
-- `fine_tuning.py`: Trains the LoRA adapters using QLoRA.
-- `save_model.py`: Merges or saves the LoRA adapter checkpoints.
-
----
-
 ## 📜 License
 
-This project is released under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
