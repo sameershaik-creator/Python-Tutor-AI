@@ -1,0 +1,14 @@
+# Core Dependencies
+torch>=2.5.1
+transformers>=4.48.0
+unsloth>=2026.8.10
+unsloth_zoo>=2026.8.7
+gradio>=5.0.0
+peft>=0.14.0
+accelerate>=1.0.0
+bitsandbytes>=0.45.0
+torchao==0.7.0
+triton-windows>=3.0.0; sys_platform == "win32"
+datasets>=3.0.0
+sentencepiece>=0.2.0
+protobuf>=5.0.0

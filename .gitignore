@@ -1,0 +1,38 @@
+# Environment and Virtualenvs
+.venv/
+.venv_clean/
+venv/
+env/
+ENV/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+unsloth_compiled_cache/
+
+# Gradio & Local Storage
+.gradio/
+*.log
+*.tmp
+
+# Sensitive Keys & Environment Files
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# Large Datasets & Raw PDF Extraction Files
+data/
+raw_pdfs/
+extracted/
+cleaned/
+*.pdf
+*.jsonl
+
+# OS & IDE Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
